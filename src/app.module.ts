@@ -6,7 +6,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthController } from './modules/auth/auth.controller';
 import { AuthService } from './modules/auth/auth.service';
 import { AuthModule } from './modules/auth/auth.module';
-import { UserController } from './module/user/user.controller';
 import { UserController } from './modules/user/user.controller';
 import { UserService } from './modules/user/user.service';
 import { UserModule } from './modules/user/user.module';
