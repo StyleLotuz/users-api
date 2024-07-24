@@ -1,7 +1,8 @@
 import { IsDate, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { EGender } from "src/enum/gender.enum";
+import { Transform } from "class-transformer";
 
-export class CreateUserDto{
+export class CreateUserDto {
     @IsNotEmpty()
     @IsString()
     username: string
@@ -29,7 +30,8 @@ export class CreateUserDto{
     @IsString()
     confirmPassword: string
 
-    @IsDate()
+    @Transform(({value})=> new Date(value))
     @IsNotEmpty()
+    @IsDate()
     dateOfBirth: Date
-}   
+}

@@ -1,5 +1,6 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ModifyProfileDto } from 'src/dtos/ModifyUser.dto';
 import { Profile } from 'src/entities/profile.entity';
 import { Repository } from 'typeorm';
 
@@ -29,7 +30,7 @@ export class ProfileService {
         }
     }
 
-    async modifyProfile(id: string, userData: Partial<Profile>): Promise<Object> {
+    async modifyProfile(id: string, userData: ModifyProfileDto): Promise<Object> {
         try {
             const profile = await this.profileRepository.findOneBy({ id })
 

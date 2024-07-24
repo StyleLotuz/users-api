@@ -11,6 +11,8 @@ import { UserService } from './modules/user/user.service';
 import { UserModule } from './modules/user/user.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import typeOrmConfig from './config/typeorm'
+import { User } from './entities/user.entity';
+import { Profile } from './entities/profile.entity';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -22,6 +24,7 @@ import typeOrmConfig from './config/typeorm'
     useFactory: (configService: ConfigService) =>
       configService.get('typeorm')
   }),
+  TypeOrmModule.forFeature([User, Profile]),
   AuthModule,
   UserModule,
   ProfileModule

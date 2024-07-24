@@ -1,30 +1,31 @@
 import { EGender } from "src/enum/gender.enum";
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn, JoinColumn } from "typeorm";
 import { Profile } from "./profile.entity";
 
 @Entity()
-export class User{
+export class User {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column({type: 'varchar'})
+    @Column({ type: 'varchar' })
     name: string
 
-    @Column({type: 'varchar'})
+    @Column({ type: 'varchar' })
     email: string
     
-    @Column({type: 'varchar'})
+    @Column({ type: 'varchar' })
     address: string
 
-    @Column({type: 'varchar'})
+    @Column({ type: 'varchar' })
     password: string
 
-    @Column({type: 'date'})
+    @Column({ type: 'date' })
     dateOfBirth: Date
 
-    @Column({type: 'string'})
-    gender: EGender
+    @Column({ type: 'varchar' })
+    gender: string
 
-    @OneToOne(()=> Profile, profile => profile.user, {cascade: true})
+    @OneToOne(() => Profile, profile => profile.user, { cascade: true })
+    @JoinColumn()
     profile: Profile
 }

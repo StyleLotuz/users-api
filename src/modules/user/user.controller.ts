@@ -22,7 +22,7 @@ export class UserController {
     }
 
     @Delete(':id')
-    deleteUser(@Param() id:string){
+    deleteUser(@Param('id', ParseUUIDPipe) id:string){
         return this.usersService.deleteUser(id)
     }
 }

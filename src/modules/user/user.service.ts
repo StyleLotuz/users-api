@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from 'src/dtos/CreateUser.dto';
+import { Profile } from 'src/entities/profile.entity';
 import { User } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 
@@ -8,11 +9,12 @@ import { Repository } from 'typeorm';
 export class UserService {
     constructor(
         @InjectRepository(User) private userRepository: Repository<User>,
+        @InjectRepository(Profile) private profileRepository: Repository<Profile>
     ) { }
 
     async getAllUser(): Promise<User[]> {
         try {
-            return await this.userRepository.find()
+            return await this.userRepository.find({ relations: ['profile'] })
         } catch (err) {
             console.error(`Could get all the users`, err)
             throw new InternalServerErrorException(`Could not get all the users`)
@@ -21,7 +23,7 @@ export class UserService {
 
     async getUserById(id: string): Promise<User> {
         try {
-            const user = await this.userRepository.findOne({ where: { id } })
+            const user = await this.userRepository.findOne({ where: { id }, relations: { profile: true } })
             if (!user) throw new NotFoundException(`Could mpt get user by id ${id}`)
 
             return user
@@ -51,11 +53,15 @@ export class UserService {
 
     async deleteUser(id: string): Promise<Object> {
         try {
-            const user = await this.userRepository.findOne({where:  {id},relations: {profile: true} })
+            const user = await this.userRepository.findOne({ where: { id }, relations: { profile: true } })
 
-            if(!user) throw new NotFoundException(`Could find user with id ${id}`)
+            if (!user) throw new NotFoundException(`Could find user with id ${id}`)
 
             await this.userRepository.delete(user)
+
+            if(user.profile){
+                await this.profileRepository.delete(user.profile)
+            }
 
             return {
                 message: `User with id ${id} was deleted`,

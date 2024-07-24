@@ -2,14 +2,14 @@ import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
 
 @Entity()
-export class Profile{
-    @PrimaryGeneratedColumn()
+export class Profile {
+    @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column({type: 'varchar'})
+    @Column({ type: 'varchar' })
     name: string
     
-    @Column({type: 'int'})
+    @Column({ type: 'int' })
     age: number
 
     @OneToOne(() => User, user => user.profile)
